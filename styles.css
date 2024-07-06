@@ -43,7 +43,7 @@ form > label > input {
   padding: 0 0.5rem;
 }
 
-button[type="submit"] {
+button {
   display: block;
   text-align: center;
   padding: 8px 12px;
