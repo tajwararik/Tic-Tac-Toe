@@ -50,3 +50,35 @@ button {
   margin: 10px auto;
   cursor: pointer;
 }
+
+#game-board div {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    margin: 0 auto;
+}
+
+#game-board div:first-child,
+#game-board div:nth-child(2),
+#game-board div:nth-child(3) {
+    border-top: none;
+}
+
+#game-board div:nth-child(7),
+#game-board div:nth-child(8),
+#game-board div:last-child {
+    border-bottom: none;
+}
+
+#game-board div:nth-child(3n + 1) {
+    border-left: none;
+}
+
+#game-board div:nth-child(3n) {
+    border-right: none;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #000;
+}
