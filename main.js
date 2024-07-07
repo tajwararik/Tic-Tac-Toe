@@ -39,6 +39,7 @@ const submitButton = playersData.querySelector("button[type='submit']");
 submitButton.addEventListener("click", () => {
   const players = getPlayersData.playersName();
   console.log(players);
+  playersData.style.display = "none";
 });
 
 // Getting player's names
