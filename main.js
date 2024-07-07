@@ -2,11 +2,11 @@ const playersData = document.querySelector("#players-data");
 
 const gameBoardSection = document.querySelector("#game-board");
 
+const startGame = document.querySelector("#start > button");
+
 const gameBoard = gameBoardSection.querySelector("div");
 
 const displayMessage = document.querySelector("#display");
-
-const startButton = gameBoardSection.querySelector("button[type='button']");
 
 //Creating initial cell
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,9 +19,9 @@ function createCell() {
 
   const getBoard = () => {
     boardArray.forEach(() => {
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
-        gameBoard.append(cell);
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      gameBoard.append(cell);
     });
   };
 
@@ -29,8 +29,9 @@ function createCell() {
 }
 
 //Displaying the form
-startButton.addEventListener("click", () => {
+startGame.addEventListener("click", function () {
   playersData.style.display = "block";
+  this.style.display = "none";
 });
 
 const submitButton = playersData.querySelector("button[type='submit']");
@@ -40,6 +41,7 @@ submitButton.addEventListener("click", () => {
   const players = getPlayersData.playersName();
   console.log(players);
   playersData.style.display = "none";
+  gameBoardSection.style.display = "block";
 });
 
 // Getting player's names
