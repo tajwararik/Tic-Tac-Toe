@@ -51,6 +51,10 @@ button {
   cursor: pointer;
 }
 
+#game-board {
+    display: none;
+}
+
 #game-board div {
     display: grid;
     grid-template-columns: repeat(3, auto);
