@@ -55,10 +55,19 @@ button {
     display: none;
 }
 
-#game-board div {
+#game-board > p {
+  font-size: 2rem;
+  font-weight: 600;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#game-board > div {
     display: grid;
-    grid-template-columns: repeat(3, auto);
-    margin: 0 auto;
+    grid-template-columns: repeat(3, 100px);
+    margin: 0 auto 80px;
 }
 
 #game-board div:first-child,
@@ -84,5 +93,9 @@ button {
 .cell {
     width: 100px;
     height: 100px;
+    font-size: 5rem;
+    text-align: center;
+    padding: 5px 0;
     border: 1px solid #000;
+    cursor: pointer;
 }
