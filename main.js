@@ -21,11 +21,11 @@ const winConditions = [
 
 // Creating initial cell
 document.addEventListener("DOMContentLoaded", () => {
-  const board = createCell();
-  board.getBoard();
+  loadBoard.getBoard();
 });
 
-function createCell() {
+// Using IIFE
+const loadBoard = (function () {
   const boardArray = ["", "", "", "", "", "", "", "", ""];
 
   const getBoard = () => {
@@ -38,7 +38,7 @@ function createCell() {
   };
 
   return { getBoard };
-}
+})();
 
 // Displaying the form
 startGame.addEventListener("click", function () {
@@ -54,10 +54,12 @@ submitButton.addEventListener("click", () => {
   event.preventDefault();
 
   const players = getPlayersData.playersName();
-  player(players);
+  const startGame = player(players);
 
   playersData.style.display = "none";
   gameBoardSection.style.display = "block";
+
+  game(startGame);
 });
 
 // Getting player's names using IIFE
@@ -74,7 +76,7 @@ const getPlayersData = (function () {
 
 // Creating players profile
 function player(players) {
-  // Destructuring
+  // Destructuring array
   const [playerOne, playerTwo] = players;
 
   let playerOneSymbol = "";
@@ -108,4 +110,24 @@ function player(players) {
     getPlayerTwoSymbol,
     playerInfo,
   };
+}
+
+function game(startGame) {
+  // Destructuring object
+  const { playerOne, playerTwo } = startGame.playerInfo();
+
+  let currentPlayer = playerOne;
+
+  const cells = gameBoardSection.querySelectorAll(".cell");
+
+  cells.forEach((cell) => {
+    cell.addEventListener("click", handleSymbols, { once: true });
+  });
+
+  function handleSymbols(e) {
+    const cell = e.target;
+    cell.textContent = currentPlayer.symbol;
+
+    currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+  }
 }
