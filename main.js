@@ -38,6 +38,9 @@ const submitButton = playersData.querySelector("button[type='submit']");
 
 // Submitting the form
 submitButton.addEventListener("click", () => {
+  // Preventing default function to form submission
+  event.preventDefault();
+
   const players = getPlayersData.playersName();
   player(players);
 
