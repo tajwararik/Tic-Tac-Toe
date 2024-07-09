@@ -6,7 +6,7 @@ const startGame = document.querySelector("#start > button");
 
 const gameBoard = gameBoardSection.querySelector("div");
 
-const displayMessage = document.querySelector("#display");
+const displayMessage = gameBoardSection.querySelector("p");
 
 const winConditions = [
   [0, 1, 2],
@@ -55,6 +55,7 @@ submitButton.addEventListener("click", () => {
 
   const players = getPlayersData.playersName();
   const startGame = player(players);
+  displayMessage.textContent = `First turn is for ${players[0]} (X)`;
 
   playersData.style.display = "none";
   gameBoardSection.style.display = "block";
@@ -88,9 +89,6 @@ function player(players) {
     playerTwoSymbol = "O";
   })();
 
-  const getPlayerOneSymbol = () => playerOneSymbol;
-  const getPlayerTwoSymbol = () => playerTwoSymbol;
-
   const playerInfo = () => {
     return {
       playerOne: {
@@ -106,8 +104,6 @@ function player(players) {
   };
 
   return {
-    getPlayerOneSymbol,
-    getPlayerTwoSymbol,
     playerInfo,
   };
 }
@@ -129,5 +125,10 @@ function game(startGame) {
     cell.textContent = currentPlayer.symbol;
 
     currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+    updateMessage(currentPlayer);
   }
+}
+
+function updateMessage(currentPlayer) {
+  displayMessage.textContent = `Now it's ${currentPlayer.name}'s turn (${currentPlayer.symbol})`;
 }
