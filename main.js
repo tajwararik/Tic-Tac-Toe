@@ -8,17 +8,6 @@ const gameBoard = gameBoardSection.querySelector("div");
 
 const displayMessage = gameBoardSection.querySelector("p");
 
-const winConditions = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
-
 // Creating initial cell
 document.addEventListener("DOMContentLoaded", () => {
   loadBoard.getBoard();
@@ -109,6 +98,19 @@ function player(players) {
 }
 
 function game(startGame) {
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  const tempArray = Array(9).fill(null);
+
   // Destructuring object
   const { playerOne, playerTwo } = startGame.playerInfo();
 
@@ -122,13 +124,29 @@ function game(startGame) {
 
   function handleSymbols(e) {
     const cell = e.target;
+    const index = cell.getAttribute("data-index");
+    tempArray[index] = currentPlayer.symbol;
     cell.textContent = currentPlayer.symbol;
 
-    currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
-    updateMessage(currentPlayer);
-  }
-}
+    if (checkWin(currentPlayer.symbol)) {
+      displayMessage.textContent = `${currentPlayer.name} (${currentPlayer.symbol}) wins!`;
+      return;
+    }
 
-function updateMessage(currentPlayer) {
-  displayMessage.textContent = `Now it's ${currentPlayer.name}'s turn (${currentPlayer.symbol})`;
+    if (tempArray.every((cell) => cell !== null)) {
+      displayMessage.textContent = "It's a draw.";
+      return;
+    }
+
+    // Ternary operator to swap the current player
+    currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+
+    displayMessage.textContent = `Now it's ${currentPlayer.name}'s turn (${currentPlayer.symbol})`;
+  }
+
+  function checkWin(symbol) {
+    return winningCombinations.some((combination) => {
+      return combination.every((index) => tempArray[index] === symbol);
+    });
+  }
 }
