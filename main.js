@@ -130,6 +130,11 @@ function game(startGame) {
 
     if (checkWin(currentPlayer.symbol)) {
       displayMessage.textContent = `${currentPlayer.name} (${currentPlayer.symbol}) wins!`;
+
+      cells.forEach((cell) => {
+        cell.removeEventListener("click", handleSymbols);
+      });
+      
       return;
     }
 
