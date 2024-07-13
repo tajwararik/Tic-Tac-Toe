@@ -58,7 +58,9 @@ const getPlayersData = (function () {
   const playerTwo = playersData.querySelector("#player-two");
 
   const playersName = () => {
-    return [playerOne.value, playerTwo.value];
+    if (playerOne.value !== "" && playerTwo.value !== "")
+      return [playerOne.value, playerTwo.value];
+    else alert("Please enter the players' names.");
   };
 
   return { playersName };
@@ -134,7 +136,7 @@ function game(startGame) {
       cells.forEach((cell) => {
         cell.removeEventListener("click", handleSymbols);
       });
-      
+
       return;
     }
 
