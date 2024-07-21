@@ -8,6 +8,10 @@ const gameBoard = gameBoardSection.querySelector("div");
 
 const displayMessage = gameBoardSection.querySelector("p");
 
+const submitButton = playersData.querySelector("button[type='submit']");
+
+const resetButton = gameBoardSection.querySelector("button");
+
 // Creating initial cell
 document.addEventListener("DOMContentLoaded", () => {
   loadBoard.getBoard();
@@ -35,8 +39,6 @@ startGame.addEventListener("click", function () {
   this.style.display = "none";
 });
 
-const submitButton = playersData.querySelector("button[type='submit']");
-
 // Submitting the form
 submitButton.addEventListener("click", () => {
   // Preventing default function to form submission
@@ -44,7 +46,6 @@ submitButton.addEventListener("click", () => {
 
   const players = getPlayersData.playersName();
   const startGame = player(players);
-  displayMessage.textContent = `First turn is for ${players[0]} (X)`;
 
   playersData.style.display = "none";
   gameBoardSection.style.display = "block";
@@ -117,12 +118,19 @@ function game(startGame) {
   const { playerOne, playerTwo } = startGame.playerInfo();
 
   let currentPlayer = playerOne;
+  let cells = null;
 
-  const cells = gameBoardSection.querySelectorAll(".cell");
+  function initialGame() {
+    cells = gameBoardSection.querySelectorAll(".cell");
 
-  cells.forEach((cell) => {
-    cell.addEventListener("click", handleSymbols, { once: true });
-  });
+    cells.forEach((cell) => {
+      cell.addEventListener("click", handleSymbols, { once: true });
+    });
+
+    displayMessage.textContent = `First turn is for ${currentPlayer.name} (${currentPlayer.symbol})`;
+  }
+
+  initialGame();
 
   function handleSymbols(e) {
     const cell = e.target;
@@ -130,9 +138,11 @@ function game(startGame) {
     tempArray[index] = currentPlayer.symbol;
     cell.textContent = currentPlayer.symbol;
 
+    // Calling the checkWin function
     if (checkWin(currentPlayer.symbol)) {
       displayMessage.textContent = `${currentPlayer.name} (${currentPlayer.symbol}) wins!`;
 
+      // Removing the event listener after found a winner
       cells.forEach((cell) => {
         cell.removeEventListener("click", handleSymbols);
       });
@@ -151,9 +161,23 @@ function game(startGame) {
     displayMessage.textContent = `Now it's ${currentPlayer.name}'s turn (${currentPlayer.symbol})`;
   }
 
+  // Checking for a winner
   function checkWin(symbol) {
     return winningCombinations.some((combination) => {
       return combination.every((index) => tempArray[index] === symbol);
     });
   }
+
+  // Reset button
+  resetButton.addEventListener("click", () => {
+    while (gameBoard.firstChild) {
+      gameBoard.removeChild(gameBoard.firstChild);
+    }
+
+    loadBoard.getBoard();
+    tempArray.fill(null);
+    currentPlayer = playerOne;
+
+    initialGame();
+  });
 }
