@@ -41,11 +41,11 @@ startGame.addEventListener("click", function () {
 
 // Submitting the form
 submitButton.addEventListener("click", () => {
-  // Preventing default function to form submission
+  // Preventing default function after submitting form
   event.preventDefault();
 
-  const players = getPlayersData.playersName();
-  const startGame = player(players);
+  const players = getPlayersData.playersNames();
+  const startGame = createPlayersProfiles(players);
 
   playersData.style.display = "none";
   gameBoardSection.style.display = "block";
@@ -58,17 +58,17 @@ const getPlayersData = (function () {
   const playerOne = playersData.querySelector("#player-one");
   const playerTwo = playersData.querySelector("#player-two");
 
-  const playersName = () => {
+  const playersNames = () => {
     if (playerOne.value !== "" && playerTwo.value !== "")
       return [playerOne.value, playerTwo.value];
     else alert("Please enter the players' names.");
   };
 
-  return { playersName };
+  return { playersNames };
 })();
 
 // Creating players profile
-function player(players) {
+function createPlayersProfiles(players) {
   // Destructuring array
   const [playerOne, playerTwo] = players;
 
@@ -100,6 +100,7 @@ function player(players) {
   };
 }
 
+// Contains all the logics for the game
 function game(startGame) {
   const winningCombinations = [
     [0, 1, 2],
